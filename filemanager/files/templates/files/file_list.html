@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Manager</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .auth-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: 1px solid #dc3545;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: 1px solid #28a745;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: 1px solid #6c757d;
+        }
+        .user-info {
+            font-weight: bold;
+            color: #495057;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>File Manager</h1>
+        <div class="auth-info">
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <span class="user-info">Admin: {{ user.username }}</span>
+                    <a href="{% url 'file_upload' %}" class="btn btn-primary">Upload File</a>
+                    <a href="{% url 'admin:index' %}" class="btn btn-success">Admin Panel</a>
+                    <form method="post" action="{% url 'admin:logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                {% else %}
+                    <span class="user-info">User: {{ user.username }}</span>
+                    <a href="{% url 'admin:logout' %}" class="btn btn-secondary">Logout</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'admin:login' %}" class="btn btn-primary">Admin Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>Available Files</h2>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <ul class="file-list">
+        {% for file in files %}
+            <li class="file-item">
+                <div>
+                    <a href="{{ file.file.url }}" target="_blank" style="font-weight: bold;">
+                        {{ file.original_name }}
+                    </a>
+                    <div style="font-size: 12px; color: #666;">
+                        Uploaded: {{ file.uploaded_at|date:"Y-m-d H:i" }}
+                        • Size: {{ file.file.size|filesizeformat }}
+                    </div>
+                </div>
+
+                {% if user.is_authenticated and user.is_staff %}
+                    <div class="file-actions">
+                        <form method="post" action="{% url 'file_delete' file.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete {{ file.original_name }}?')">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="file-item">
+                <div>No files available.</div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
