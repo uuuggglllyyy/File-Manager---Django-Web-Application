@@ -9,6 +9,7 @@ https://img.shields.io/badge/License-MIT-yellow.svg
 Файлы под вашим контролем — без лишних сложностей
 
 </div>
+
 🚀 Что это такое?
 FileVault — это минималистичное веб-приложение для управления файлами, где простота встречается с мощью. Представьте себе цифровую сейфовую ячейку: только вы имеете ключ, а все остальные могут лишь заглянуть внутрь через бронированное стекло.
 
@@ -19,7 +20,7 @@ FileVault — это минималистичное веб-приложение 
 👁️ Полный обзор содержимого	🚀 Мгновенный доступ
 ⚡ Молниеносное управление	📱 Адаптивный дизайн
 🛠️ Технологии под капотом
-python
+
 # Наш технологический стек
 TECH_STACK = {
     "backend": "Django 4.2+",
@@ -29,9 +30,10 @@ TECH_STACK = {
     "style": "Pure CSS Magic",
     "compatibility": "curl + browsers"
 }
+
 🎨 Интерфейс, который радует глаз
 Главная страница — ваш командный центр
-html
+
 <!-- Чистый, интуитивный дизайн -->
 ┌─────────────────────────────────────────────────────┐
 │ 📁 FileVault                 [👤 Admin] [🚪 Logout] │
@@ -46,9 +48,10 @@ html
 │ │ 🖼️ image.jpg      │ 2024-01-14  │  [🗑️]       │  │
 │ └───────────────────┴─────────────┴─────────────┘  │
 └─────────────────────────────────────────────────────┘
+
 ⚡ Быстрый старт
 🎯 5 шагов к вашему FileVault
-bash
+
 # 1. Клонируем и активируем
 git clone <your-repo>
 python -m venv .venv && source .venv/bin/activate  # Linux/Mac
@@ -66,11 +69,12 @@ python manage.py createsuperuser
 
 # 5. Запускаем!
 python manage.py runserver
+
 Готово! Откройте http://127.0.0.1:8000 и начните управление файлами! 🎊
 
 🔧 Для разработчиков
 Архитектура в стиле LEGO
-text
+
 filemanager/
 ├── 🧱 filemanager/          # Фундамент проекта
 ├── 🎯 files/               # Основной модуль
@@ -79,8 +83,9 @@ filemanager/
 │   └── urls.py           # Маршрутизация
 ├── 📁 uploads/            # Хранилище файлов
 └── 🗄️  db.sqlite3         # База данных
+
 Расширяемость
-python
+
 # Легко добавить новые функции!
 class UploadedFile(models.Model):
     file = models.FileField(upload_to=magic_upload_path)
@@ -89,6 +94,7 @@ class UploadedFile(models.Model):
     # ✨ Просто добавьте новые поля!
     description = models.TextField(blank=True)  # Новое поле!
     category = models.CharField(max_length=100) # Еще одно!
+
 🎮 Как использовать?
 Для администраторов 🦸
 Вход в систему: Нажмите "Admin Login" на главной
@@ -107,7 +113,7 @@ class UploadedFile(models.Model):
 Повторяйте — наслаждайтесь простотой! 🎉
 
 💻 Для гиков — работа через curl
-bash
+
 # Скачать файл как босс
 curl -O http://localhost:8000/uploads/ваш-файл.txt
 
@@ -116,6 +122,7 @@ curl -o cool_name.pdf http://localhost:8000/uploads/uuid-file.pdf
 
 # Быстрая проверка
 curl -I http://localhost:8000/uploads/file.txt
+
 🛡️ Безопасность — наш приоритет
 Защитные механизмы:
 ✅ Авторизация Django — проверенная временем
